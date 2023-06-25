@@ -13,14 +13,14 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _userIDController = TextEditingController();
-  TextEditingController _bioController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _nameController.text = 'CB Praveen';
     _userIDController.text = 'praveen_nonsense_';
-    _bioController.text = "SVNIT'25 \nRemember me?";
+    _emailController.text = "SVNIT'25 \nRemember me?";
   }
 
   @override
@@ -152,7 +152,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Padding(
                           padding: EdgeInsets.only(left: 8.0),
                           child: Text(
-                            "Bio",
+                            "Email",
                             style: TextStyle(
                                 fontSize: 19, fontWeight: FontWeight.w400),
                           ),
@@ -160,7 +160,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Expanded(
                       flex: 75,
                       child: TextField(
-                        controller: _bioController,
+                        controller: _emailController,
                         maxLines: null,
                       ),
                     ),
