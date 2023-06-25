@@ -1,7 +1,13 @@
 // ignore_for_file: avoid_unnecessary_containers, duplicate_ignore, sort_child_properties_last
 
+import 'dart:convert';
+
+import 'package:chatt_app_frontend/provider/token_provider.dart';
+import 'package:chatt_app_frontend/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -14,13 +20,30 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _userIDController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
+  String? name;
+  String? email;
+  String? userid;
 
   @override
   void initState() {
     super.initState();
-    _nameController.text = 'CB Praveen';
-    _userIDController.text = 'praveen_nonsense_';
-    _emailController.text = "SVNIT'25 \nRemember me?";
+    get_data();
+  }
+
+  get_data() async {
+    final authProvider = Provider.of<AuthProvider>(context);
+    print(authProvider.loggedstatus);
+    print(authProvider.token);
+    // var response = await http.post(
+    //   Uri.parse("http://10.0.2.2:8000/api/get_user/"),
+    //   body: {"token": authProvider.token},
+    // );
+
+    // var jsonResponse = jsonDecode(response.body);
+    // print(jsonResponse);
+    // _nameController.text = jsonResponse['name'];
+    // _userIDController.text = jsonResponse['userid'];
+    // _emailController.text = jsonResponse['email'];
   }
 
   @override
@@ -41,7 +64,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: [
                     Expanded(
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, MyRoutes.HomePage);
+                        },
                         child: const Text(
                           "Cancel",
                           style: TextStyle(

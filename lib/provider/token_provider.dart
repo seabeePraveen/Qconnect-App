@@ -1,11 +1,7 @@
 import 'dart:convert';
-import 'dart:js';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-
-import '../pages/home_page.dart';
-import '../utils/routes.dart';
 
 class AuthProvider with ChangeNotifier {
   bool _loggedstatus = false;
