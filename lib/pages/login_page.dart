@@ -1,4 +1,5 @@
 import 'package:chatt_app_frontend/provider/token_provider.dart';
+import 'package:chatt_app_frontend/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context, listen: true);
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -66,6 +67,9 @@ class _LoginPageState extends State<LoginPage> {
                 onTap: () {
                   authProvider.login(_useridController.text.toString(),
                       _passwordController.text.toString());
+                  if (authProvider.loggedstatus) {
+                    Navigator.pushNamed(context, MyRoutes.HomePage);
+                  }
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -91,7 +95,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, MyRoutes.SignuPage);
+                    },
                     child: const Text("Register"),
                   ),
                 ],

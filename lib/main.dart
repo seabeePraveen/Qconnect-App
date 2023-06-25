@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           MyRoutes.ProfilePage: (context) => const ProfilePage(),
           MyRoutes.HomePage: (context) => const HomePage(),
           MyRoutes.LoginPage: (context) => const LoginPage(),
-          MyRoutes.SignuPage: (context) => const SignuPage(),
+          MyRoutes.SignuPage: (context) => SignuPage(),
         },
       ),
     );
