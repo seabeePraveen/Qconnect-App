@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       providers: [ChangeNotifierProvider(create: (_) => AuthProvider())],
       child: MaterialApp(
         // home: const ProfilePage(),
-        initialRoute: MyRoutes.HomePage,
+        initialRoute: MyRoutes.LoginPage,
         debugShowCheckedModeBanner: false,
         routes: {
           MyRoutes.ProfilePage: (context) => const ProfilePage(),

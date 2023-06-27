@@ -12,7 +12,7 @@ class SignuPage extends StatefulWidget {
 }
 
 class _SignuPageState extends State<SignuPage> {
-  TextEditingController _useridController = TextEditingController();
+  TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
@@ -62,7 +62,7 @@ class _SignuPageState extends State<SignuPage> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 60.0, vertical: 6),
                     child: TextFormField(
-                      controller: _useridController,
+                      controller: _usernameController,
                       keyboardType: TextInputType.text,
                       decoration: const InputDecoration(
                         hintText: "User ID",
@@ -120,10 +120,11 @@ class _SignuPageState extends State<SignuPage> {
                             error_cond = false;
                           });
                           authProvider.register(
-                            _useridController.text.toString(),
+                            _usernameController.text.toString(),
                             _emailController.text.toString(),
                             _passwordController.text.toString(),
                           );
+                          // Navigator.pushNamed(context, MyRoutes.HomePage);
                           if (authProvider.loggedstatus) {
                             Navigator.pushNamed(context, MyRoutes.HomePage);
                           }
