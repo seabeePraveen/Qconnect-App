@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:chatt_app_frontend/provider/token_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -109,7 +111,7 @@ class _SignuPageState extends State<SignuPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     child: InkWell(
-                      onTap: () {
+                      onTap: () async {
                         if (_passwordController.text !=
                             _confirmPasswordController.text) {
                           setState(() {
@@ -119,12 +121,25 @@ class _SignuPageState extends State<SignuPage> {
                           setState(() {
                             error_cond = false;
                           });
-                          authProvider.register(
+                          var res = await authProvider.register(
                             _usernameController.text.toString(),
                             _emailController.text.toString(),
                             _passwordController.text.toString(),
                           );
-                          // Navigator.pushNamed(context, MyRoutes.HomePage);
+                          if (res.runtimeType == String) {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return Dialog(
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      height: 200,
+                                      width: 250,
+                                      child: Text(res as String),
+                                    ),
+                                  );
+                                });
+                          }
                           if (authProvider.loggedstatus) {
                             Navigator.pushNamed(context, MyRoutes.HomePage);
                           }

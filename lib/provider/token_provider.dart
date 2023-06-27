@@ -36,7 +36,7 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void login(String username, String password) async {
+  Future<dynamic> login(String username, String password) async {
     try {
       var response = await http.post(
         Uri.parse("http://10.0.2.2:8000/api/login/"),
@@ -65,12 +65,15 @@ class AuthProvider with ChangeNotifier {
         }
       } else if (response.statusCode == 404) {
         var jsonResponse = jsonDecode(response.body);
-        print(jsonResponse);
+        if (jsonResponse.containsKey("error")) {
+          return jsonResponse["error"];
+        }
       }
     } catch (e) {}
   }
 
-  void register(String username, String email, String password) async {
+  Future<dynamic> register(
+      String username, String email, String password) async {
     try {
       var response = await http.post(
         Uri.parse("http://10.0.2.2:8000/api/register/"),
@@ -99,12 +102,17 @@ class AuthProvider with ChangeNotifier {
         }
       } else {
         var jsonResponse = jsonDecode(response.body);
-        print(jsonResponse);
+        if (jsonResponse.containsKey("username")) {
+          return jsonResponse["username"];
+        }
+        if (jsonResponse.containsKey("email")) {
+          return jsonResponse["email"];
+        }
       }
     } catch (e) {}
   }
 
-  void userUpdate(String username, String email, String name) async {
+  Future<dynamic> userUpdate(String username, String email, String name) async {
     var response = await http.post(
       Uri.parse("http://10.0.2.2:8000/api/update/"),
       body: {
@@ -115,7 +123,6 @@ class AuthProvider with ChangeNotifier {
       },
     );
     if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body);
       var userDetails = await http.post(
         Uri.parse("http://10.0.2.2:8000/api/get_user/"),
         body: {"token": token},
@@ -135,7 +142,12 @@ class AuthProvider with ChangeNotifier {
       }
     } else {
       var jsonResponse = jsonDecode(response.body);
-      print(jsonResponse);
+      if (jsonResponse.containsKey("username")) {
+        return jsonResponse["username"];
+      }
+      if (jsonResponse.containsKey("email")) {
+        return jsonResponse["email"];
+      }
     }
   }
 }

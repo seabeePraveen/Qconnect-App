@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:chatt_app_frontend/provider/token_provider.dart';
 import 'package:chatt_app_frontend/utils/routes.dart';
 import 'package:flutter/material.dart';
@@ -64,9 +66,24 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: InkWell(
-                onTap: () {
-                  authProvider.login(_useridController.text.toString(),
+                onTap: () async {
+                  var res = await authProvider.login(
+                      _useridController.text.toString(),
                       _passwordController.text.toString());
+                  if (res.runtimeType == String) {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 200,
+                              width: 250,
+                              child: Text(res as String),
+                            ),
+                          );
+                        });
+                  }
                   if (authProvider.loggedstatus) {
                     Navigator.pushNamed(context, MyRoutes.HomePage);
                   }

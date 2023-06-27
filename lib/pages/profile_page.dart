@@ -1,13 +1,9 @@
-// ignore_for_file: avoid_unnecessary_containers, duplicate_ignore, sort_child_properties_last
-
-import 'dart:convert';
+// ignore_for_file: avoid_unnecessary_containers, duplicate_ignore, sort_child_properties_last, use_build_context_synchronously
 
 import 'package:chatt_app_frontend/provider/token_provider.dart';
 import 'package:chatt_app_frontend/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -73,12 +69,27 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontSize: 18,
                           ),
                         ),
-                        onPressed: () {
-                          authProvider.userUpdate(
+                        onPressed: () async {
+                          var res = await authProvider.userUpdate(
                               _usernameController.text.toString(),
                               _emailController.text,
                               _nameController.text.toString());
-                          Navigator.pop(context);
+                          if (res.runtimeType == String) {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return Dialog(
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      height: 200,
+                                      width: 250,
+                                      child: Text(res as String),
+                                    ),
+                                  );
+                                });
+                          } else {
+                            Navigator.pop(context);
+                          }
                         },
                       ),
                     ),
