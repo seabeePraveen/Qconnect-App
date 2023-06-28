@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:chatt_app_frontend/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -13,7 +14,8 @@ class AuthProvider with ChangeNotifier {
       name: "admin",
       username: "admin",
       email: "admin@gmail.com",
-      phone_number: "12345678");
+      phone_number: "12345678",
+      profile_pic: "xxxx");
   User get user => _user;
 
   void setLoggedStatus(bool val) {
@@ -26,13 +28,14 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setUser(
-      String username, String email, String name, String phone_number) {
+  void setUser(String username, String email, String name, String phone_number,
+      String profile_pic) {
     _user = User(
         email: email,
         username: username,
         name: name,
-        phone_number: phone_number);
+        phone_number: phone_number,
+        profile_pic: profile_pic);
     notifyListeners();
   }
 
@@ -59,8 +62,13 @@ class AuthProvider with ChangeNotifier {
           if (newJsonResponse['phone_number'] == null) {
             newJsonResponse['phone_number'] = "None";
           }
-          setUser(newJsonResponse['username'], newJsonResponse['email'],
-              newJsonResponse['name'], newJsonResponse['phone_number']);
+          print(newJsonResponse['profile_pic']);
+          setUser(
+              newJsonResponse['username'],
+              newJsonResponse['email'],
+              newJsonResponse['name'],
+              newJsonResponse['phone_number'],
+              newJsonResponse['profile_pic']);
           setLoggedStatus(true);
         }
       } else if (response.statusCode == 404) {
@@ -96,8 +104,12 @@ class AuthProvider with ChangeNotifier {
           if (newJsonResponse['phone_number'] == null) {
             newJsonResponse['phone_number'] = "None";
           }
-          setUser(newJsonResponse['username'], newJsonResponse['email'],
-              newJsonResponse['name'], newJsonResponse['phone_number']);
+          setUser(
+              newJsonResponse['username'],
+              newJsonResponse['email'],
+              newJsonResponse['name'],
+              newJsonResponse['phone_number'],
+              newJsonResponse['profile_pic']);
           setLoggedStatus(true);
         }
       } else {
@@ -136,8 +148,12 @@ class AuthProvider with ChangeNotifier {
         if (newJsonResponse['phone_number'] == null) {
           newJsonResponse['phone_number'] = "None";
         }
-        setUser(newJsonResponse['username'], newJsonResponse['email'],
-            newJsonResponse['name'], newJsonResponse['phone_number']);
+        setUser(
+            newJsonResponse['username'],
+            newJsonResponse['email'],
+            newJsonResponse['name'],
+            newJsonResponse['phone_number'],
+            newJsonResponse['profile_pic']);
         setLoggedStatus(true);
       }
     } else {

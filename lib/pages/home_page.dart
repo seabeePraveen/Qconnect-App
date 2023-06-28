@@ -1,5 +1,8 @@
 import 'package:chatt_app_frontend/utils/routes.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:chatt_app_frontend/provider/token_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -11,8 +14,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController _searchController = TextEditingController();
 
+  String imageString = "asdkf";
+
+  // final bytes = base64Decode(imageString);
+  // final imageWidget = Image.memory(bytes);
+
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -32,10 +42,11 @@ class _HomePageState extends State<HomePage> {
                         child: CircleAvatar(
                           radius: 32,
                           child: Container(
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                image: AssetImage("assets/profile_image.png"),
+                                image: NetworkImage('http://10.0.2.2:8000' +
+                                    authProvider.user.profile_pic),
                                 fit: BoxFit.contain,
                               ),
                             ),
