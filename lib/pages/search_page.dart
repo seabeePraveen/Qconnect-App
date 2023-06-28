@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class SearchPage extends StatefulWidget {
@@ -86,10 +85,11 @@ class _SearchPageState extends State<SearchPage> {
                       leading: CircleAvatar(
                         radius: 28,
                         child: Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: AssetImage("assets/profile_image.png"),
+                              image: NetworkImage('http://10.0.2.2:8000' +
+                                  data[index]['profile_pic']),
                               fit: BoxFit.contain,
                             ),
                           ),

@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_unnecessary_containers, duplicate_ignore, sort_child_properties_last, use_build_context_synchronously
+// ignore_for_file: avoid_unnecessary_containers, duplicate_ignore, sort_child_properties_last, use_build_context_synchronously, prefer_interpolation_to_compose_strings
 
 import 'package:chatt_app_frontend/provider/token_provider.dart';
 import 'package:chatt_app_frontend/utils/routes.dart';
@@ -101,9 +101,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Center(
                   child: Column(
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 32 * 1.5,
-                        backgroundImage: AssetImage("assets/profile_image.png"),
+                        backgroundImage: NetworkImage('http://10.0.2.2:8000' +
+                            authProvider.user.profile_pic),
                       ),
                       TextButton(
                         onPressed: () {},
