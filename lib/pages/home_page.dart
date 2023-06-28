@@ -50,7 +50,9 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                       flex: 20,
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, MyRoutes.SearchPage);
+                        },
                         child: const Icon(
                           Icons.search,
                           size: 28,

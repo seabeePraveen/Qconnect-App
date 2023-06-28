@@ -1,6 +1,7 @@
 import 'package:chatt_app_frontend/pages/home_page.dart';
 import 'package:chatt_app_frontend/pages/login_page.dart';
 import 'package:chatt_app_frontend/pages/profile_page.dart';
+import 'package:chatt_app_frontend/pages/search_page.dart';
 import 'package:chatt_app_frontend/pages/signup_page.dart';
 import 'package:chatt_app_frontend/provider/token_provider.dart';
 import 'package:chatt_app_frontend/utils/routes.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
           MyRoutes.HomePage: (context) => HomePage(),
           MyRoutes.LoginPage: (context) => const LoginPage(),
           MyRoutes.SignuPage: (context) => SignuPage(),
+          MyRoutes.SearchPage: (context) => const SearchPage(),
         },
       ),
     );
