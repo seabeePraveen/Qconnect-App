@@ -53,7 +53,6 @@ class AuthProvider with ChangeNotifier {
           Uri.parse("http://10.0.2.2:8000/api/get_user/"),
           body: {"token": token},
         );
-
         if (userDetails.statusCode == 200) {
           var newJsonResponse = jsonDecode(userDetails.body);
           if (newJsonResponse['name'] == null) {
@@ -62,7 +61,6 @@ class AuthProvider with ChangeNotifier {
           if (newJsonResponse['phone_number'] == null) {
             newJsonResponse['phone_number'] = "None";
           }
-          print(newJsonResponse['profile_pic']);
           setUser(
               newJsonResponse['username'],
               newJsonResponse['email'],

@@ -1,8 +1,13 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:chatt_app_frontend/utils/routes.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
 import 'package:chatt_app_frontend/provider/token_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -14,15 +19,34 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController _searchController = TextEditingController();
 
-  String imageString = "asdkf";
+  List<dynamic> homedata = [];
 
-  // final bytes = base64Decode(imageString);
-  // final imageWidget = Image.memory(bytes);
+  @override
+  void initState() {
+    get_details();
+    super.initState();
+  }
+
+  void get_details() async {
+    try {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+      var response = await http.post(
+        Uri.parse(
+            "http://10.0.2.2:8000/api/get_last_messages_of_user_and_details/"),
+        body: {"token": authProvider.token},
+      );
+      var jsonResponse = jsonDecode(response.body);
+      setState(() {
+        homedata = jsonResponse;
+      });
+    } catch (e) {}
+  }
 
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-
+    // get_details();
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -105,32 +129,51 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              EachUserWidget(),
-              EachUserWidget(),
-              EachUserWidget(),
-              EachUserWidget(),
-              EachUserWidget(),
-              EachUserWidget(),
-              EachUserWidget(),
-              EachUserWidget(),
-              EachUserWidget(),
-              EachUserWidget(),
-              EachUserWidget(),
-              EachUserWidget(),
-              EachUserWidget(),
-              EachUserWidget(),
-              EachUserWidget(),
-              EachUserWidget(),
+              Column(
+                children:
+                    buildDataWidgets(), // Build the column widgets dynamically
+              ),
             ],
           ),
         ),
       ),
     );
   }
+
+  List<Widget> buildDataWidgets() {
+    List<Widget> widgets = [];
+
+    // Build widgets based on the fetched data
+    for (var data in homedata) {
+      // Customize the widget as per your requirement
+      Widget dataWidget = EachUserWidget(
+        username: data['user2_username'],
+        message: data['content'],
+        profile_pic: data['user2_pic'],
+        host: data['user'],
+        sender: data['sender'],
+      );
+
+      widgets.add(dataWidget);
+    }
+
+    return widgets;
+  }
 }
 
 class EachUserWidget extends StatelessWidget {
-  const EachUserWidget({super.key});
+  String username;
+  String message;
+  final String profile_pic;
+  int host;
+  int sender;
+  EachUserWidget(
+      {super.key,
+      required this.username,
+      required this.message,
+      required this.profile_pic,
+      required this.host,
+      required this.sender});
 
   @override
   Widget build(BuildContext context) {
@@ -142,12 +185,12 @@ class EachUserWidget extends StatelessWidget {
         child: Row(
           children: [
             CircleAvatar(
-              radius: 28,
+              radius: 30,
               child: Container(
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: AssetImage("assets/profile_image.png"),
+                    image: NetworkImage('http://10.0.2.2:8000' + profile_pic),
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -156,10 +199,35 @@ class EachUserWidget extends StatelessWidget {
             const SizedBox(
               width: 20,
             ),
-            const Text(
-              "UserName",
-              style: TextStyle(
-                fontSize: 18,
+            Padding(
+              padding: const EdgeInsets.only(top: 6.0),
+              child: Column(
+                children: [
+                  Text(
+                    username,
+                    style: const TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      if (host == sender)
+                        const Text(
+                          "You: ",
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                      Text(
+                        message,
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],

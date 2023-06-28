@@ -4,6 +4,7 @@ import 'package:chatt_app_frontend/provider/token_provider.dart';
 import 'package:chatt_app_frontend/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -17,6 +18,108 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
+
+  void imagePickerOption() {
+    Get.bottomSheet(SingleChildScrollView(
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+        // ignore: avoid_unnecessary_containers
+        child: Container(
+          color: Colors.white,
+          height: 400,
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(
+                            top: 15, left: 120, right: 120, bottom: 15),
+                        child: Column(
+                          children: [
+                            InkWell(
+                                onTap: () {},
+                                child: Container(
+                                  padding: const EdgeInsets.all(30),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: Color.fromRGBO(48, 79, 254, 0.1),
+                                  ),
+                                  child: const Icon(
+                                    Icons.camera_alt,
+                                    size: 32,
+                                    color: Color(0xFF304FFE),
+                                  ),
+                                )),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Text(
+                              "Take Photo",
+                              style: TextStyle(
+                                  fontSize: 32 * 0.64,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                            border:
+                                Border.all(style: BorderStyle.solid, width: .2),
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(
+                            top: 15, left: 115, right: 115, bottom: 15),
+                        child: Column(
+                          children: [
+                            InkWell(
+                                onTap: () {},
+                                child: Container(
+                                  padding: const EdgeInsets.all(30),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: Color.fromRGBO(48, 79, 254, 0.1),
+                                  ),
+                                  child: const Icon(
+                                    Icons.filter,
+                                    size: 32,
+                                    color: Color(0xFF304FFE),
+                                  ),
+                                )),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Text(
+                              "From Gallery",
+                              style: TextStyle(
+                                  fontSize: 32 * 0.64,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                style: BorderStyle.solid, width: .15),
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +210,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             authProvider.user.profile_pic),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          imagePickerOption();
+                        },
                         child: const Text(
                           "Edit Profile Picture",
                           style: TextStyle(fontSize: 16),
