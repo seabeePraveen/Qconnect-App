@@ -4,4 +4,5 @@ class MyRoutes {
   static String LoginPage = "/login";
   static String SignuPage = '/signup';
   static String SearchPage = '/search';
+  static String MessagePage = '/message';
 }

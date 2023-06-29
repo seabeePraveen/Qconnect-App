@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_interpolation_to_compose_strings, must_be_immutable
 
 import 'dart:async';
 import 'dart:convert';
@@ -23,8 +23,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    get_details();
     super.initState();
+    get_details();
   }
 
   void get_details() async {
@@ -97,10 +97,14 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                       flex: 20,
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          setState(() {
+                            get_details();
+                          });
+                        },
                         child: Container(
                           child: const Icon(
-                            Icons.add,
+                            Icons.refresh,
                             size: 30,
                           ),
                         ),
@@ -164,19 +168,21 @@ class _HomePageState extends State<HomePage> {
 class EachUserWidget extends StatelessWidget {
   String username;
   String message;
-  final String profile_pic;
+  String profile_pic;
   int host;
   int sender;
-  EachUserWidget(
-      {super.key,
-      required this.username,
-      required this.message,
-      required this.profile_pic,
-      required this.host,
-      required this.sender});
+  EachUserWidget({
+    super.key,
+    required this.username,
+    required this.message,
+    required this.profile_pic,
+    required this.host,
+    required this.sender,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 8),
       child: Container(
@@ -197,37 +203,52 @@ class EachUserWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              width: 20,
+              width: 15,
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 6.0),
-              child: Column(
-                children: [
-                  Text(
-                    username,
-                    style: const TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Row(
+            Expanded(
+              flex: 1,
+              child: InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, MyRoutes.MessagePage,
+                      arguments: {
+                        'user2': username,
+                        'host': authProvider.user.username,
+                        'user2_profile_pic': profile_pic
+                      });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 6.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (host == sender)
-                        const Text(
-                          "You: ",
-                          style: TextStyle(color: Colors.blue),
-                        ),
                       Text(
-                        message,
+                        username,
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 20,
                         ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          if (host == sender)
+                            const Text(
+                              "You: ",
+                              style: TextStyle(color: Colors.blue),
+                            ),
+                          Text(
+                            message,
+                            style: const TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ],

@@ -1,7 +1,11 @@
 import 'dart:convert';
 
+import 'package:chatt_app_frontend/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+
+import '../provider/token_provider.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -30,6 +34,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -106,6 +111,14 @@ class _SearchPageState extends State<SearchPage> {
                         data[index]['email'],
                         style: const TextStyle(fontSize: 14.0),
                       ),
+                      onTap: () {
+                        Navigator.popAndPushNamed(context, MyRoutes.MessagePage,
+                            arguments: {
+                              'user2': data[index]['username'],
+                              'host': authProvider.user.username,
+                              'user2_profile_pic': data[index]['profile_pic']
+                            });
+                      },
                     );
                   },
                 ),
