@@ -20,6 +20,7 @@ class _MessagePageState extends State<MessagePage> {
   @override
   void initState() {
     super.initState();
+    get_messages();
   }
 
   Future<void> get_messages() async {
@@ -31,7 +32,6 @@ class _MessagePageState extends State<MessagePage> {
         body: {"host": data['host'], "user2": data['user2']},
       );
       var jsonResponse = jsonDecode(response.body);
-      print(jsonResponse);
       setState(() {
         messages = jsonResponse;
       });
@@ -69,6 +69,16 @@ class _MessagePageState extends State<MessagePage> {
               data['user2'] ?? 'admin',
               style: const TextStyle(fontSize: 20, color: Colors.black),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: InkWell(
+                onTap: () {
+                  get_messages();
+                  print(messages);
+                },
+                child: Icon(Icons.refresh),
+              ),
+            )
           ],
         ),
       ),
@@ -137,6 +147,13 @@ class _MessagePageState extends State<MessagePage> {
                       ],
                     ),
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Column(
+                    children:
+                        buildDataWidgets(), // Build the column widgets dynamically
+                  ),
                 ],
               ),
             ),
@@ -173,6 +190,50 @@ class _MessagePageState extends State<MessagePage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  List<Widget> buildDataWidgets() {
+    List<Widget> widgets = [];
+
+    // Build widgets based on the fetched data
+    for (var data in messages) {
+      // Customize the widget as per your requirement
+      Widget dataWidget = MessageWiget();
+
+      widgets.add(dataWidget);
+    }
+
+    return widgets;
+  }
+}
+
+class MessageWiget extends StatelessWidget {
+  const MessageWiget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8, top: 4, bottom: 4),
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: Container(
+          constraints: BoxConstraints(
+            maxWidth: 250,
+          ),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(),
+              color: Color(0xFFEEEEEF)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+            child: Text(
+              "this is a sample messag to check how this is working",
+              style: TextStyle(),
+            ),
+          ),
+        ),
       ),
     );
   }
