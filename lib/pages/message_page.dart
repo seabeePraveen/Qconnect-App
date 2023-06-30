@@ -15,12 +15,25 @@ class MessagePage extends StatefulWidget {
 }
 
 class _MessagePageState extends State<MessagePage> {
+  TextEditingController _messageController = TextEditingController();
+  ScrollController _scrollController = ScrollController();
   Map data = {};
   List<dynamic> messages = [];
   @override
   void initState() {
     super.initState();
     get_messages();
+    scroll_to_bottom();
+  }
+
+  void scroll_to_bottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 30),
+        curve: Curves.easeOut,
+      );
+    });
   }
 
   Future<void> get_messages() async {
@@ -38,9 +51,27 @@ class _MessagePageState extends State<MessagePage> {
     } catch (e) {}
   }
 
+  Future<void> send_message(String content, String host, String user2) async {
+    try {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+      var response = await http.post(
+        Uri.parse("http://10.0.2.2:8000/api/send/"),
+        body: {"host": host, "user2": user2, 'content': content},
+      );
+      var jsonResponse = jsonDecode(response.body);
+      setState(() {
+        _messageController.clear();
+        get_messages();
+        scroll_to_bottom();
+      });
+    } catch (e) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     data = ModalRoute.of(context)?.settings.arguments as Map<dynamic, dynamic>;
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,
@@ -87,6 +118,7 @@ class _MessagePageState extends State<MessagePage> {
           Expanded(
             flex: 91,
             child: SingleChildScrollView(
+              controller: _scrollController,
               child: Column(
                 children: [
                   const SizedBox(
@@ -151,8 +183,8 @@ class _MessagePageState extends State<MessagePage> {
                     height: 20,
                   ),
                   Column(
-                    children:
-                        buildDataWidgets(), // Build the column widgets dynamically
+                    children: buildDataWidgets(data[
+                        'user2_profile_pic']), // Build the column widgets dynamically
                   ),
                 ],
               ),
@@ -165,11 +197,12 @@ class _MessagePageState extends State<MessagePage> {
               child: Container(
                 child: Row(
                   children: [
-                    const Expanded(
+                    Expanded(
                       flex: 85,
                       child: TextField(
+                        controller: _messageController,
                         maxLines: null,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             hintText: "Message...",
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 20),
@@ -181,8 +214,14 @@ class _MessagePageState extends State<MessagePage> {
                     const Expanded(flex: 2, child: SizedBox()),
                     Expanded(
                       flex: 13,
-                      child:
-                          InkWell(onTap: () {}, child: const Icon(Icons.send)),
+                      child: InkWell(
+                          onTap: () {
+                            var content = _messageController.text;
+                            var host = authProvider.user.username;
+                            var user2 = data['user2'];
+                            send_message(content, host!, user2);
+                          },
+                          child: const Icon(Icons.send)),
                     ),
                   ],
                 ),
@@ -194,13 +233,17 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  List<Widget> buildDataWidgets() {
+  List<Widget> buildDataWidgets(String user2_profile_pic) {
     List<Widget> widgets = [];
 
     // Build widgets based on the fetched data
     for (var data in messages) {
       // Customize the widget as per your requirement
-      Widget dataWidget = MessageWiget();
+      Widget dataWidget = MessageWiget(
+          message: data['content'],
+          user: data['user'],
+          sender: data['sender'],
+          user2_profile_pic: user2_profile_pic);
 
       widgets.add(dataWidget);
     }
@@ -210,31 +253,86 @@ class _MessagePageState extends State<MessagePage> {
 }
 
 class MessageWiget extends StatelessWidget {
-  const MessageWiget({super.key});
+  String message;
+  int user;
+  int sender;
+  String user2_profile_pic;
+
+  MessageWiget(
+      {super.key,
+      required this.message,
+      required this.user,
+      required this.sender,
+      required this.user2_profile_pic});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8, top: 4, bottom: 4),
-      child: Align(
-        alignment: Alignment.topLeft,
-        child: Container(
-          constraints: BoxConstraints(
-            maxWidth: 250,
-          ),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              border: Border.all(),
-              color: Color(0xFFEEEEEF)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
-            child: Text(
-              "this is a sample messag to check how this is working",
-              style: TextStyle(),
+      padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
+      child: user == sender
+          ? Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                  constraints: const BoxConstraints(
+                    maxWidth: 250,
+                  ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(),
+                      color: const Color(0xFFEEEEEF)),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+                    child: Text(
+                      message,
+                      style: TextStyle(),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          : Row(
+              children: [
+                CircleAvatar(
+                  radius: 20,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: NetworkImage(
+                            'http://10.0.2.2:8000' + (user2_profile_pic ?? '')),
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    constraints: const BoxConstraints(
+                      maxWidth: 250,
+                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(),
+                        color: const Color(0xFFEEEEEF)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 14),
+                      child: Text(
+                        message,
+                        style: TextStyle(),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ),
-      ),
     );
   }
 }
