@@ -4,6 +4,7 @@ import 'package:chatt_app_frontend/provider/token_provider.dart';
 import 'package:chatt_app_frontend/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class ProfileOptionsPage extends StatelessWidget {
   const ProfileOptionsPage({super.key});
@@ -130,6 +131,7 @@ class ProfileOptionsPage extends StatelessWidget {
                 child: InkWell(
                   onTap: () {
                     authProvider.logout();
+                    authProvider.setLoggedStatus(false);
                     Navigator.pushNamedAndRemoveUntil(
                         context,
                         MyRoutes.LoginPage,
@@ -164,7 +166,16 @@ class ProfileOptionsPage extends StatelessWidget {
             ),
             Center(
               child: InkWell(
-                onTap: () {},
+                onTap: () async {
+                  var response = await http.post(
+                    Uri.parse("http://10.0.2.2:8000/api/delete/"),
+                    body: {"token": authProvider.token},
+                  );
+                  authProvider.logout();
+                  authProvider.setLoggedStatus(false);
+                  Navigator.pushNamedAndRemoveUntil(context, MyRoutes.LoginPage,
+                      (route) => route.settings.name == MyRoutes.LoginPage);
+                },
                 child: Container(
                   width: 100,
                   decoration: BoxDecoration(

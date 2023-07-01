@@ -1,8 +1,8 @@
-// ignore_for_file: prefer_interpolation_to_compose_strings, avoid_unnecessary_containers
+// ignore_for_file: prefer_interpolation_to_compose_strings, avoid_unnecessary_containers, must_be_immutable
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import '../provider/token_provider.dart';
@@ -19,11 +19,14 @@ class _MessagePageState extends State<MessagePage> {
   ScrollController _scrollController = ScrollController();
   Map data = {};
   List<dynamic> messages = [];
+  Timer? timer;
+
   @override
   void initState() {
     super.initState();
     get_messages();
     scroll_to_bottom();
+    startTimer();
   }
 
   void scroll_to_bottom() {
@@ -38,8 +41,6 @@ class _MessagePageState extends State<MessagePage> {
 
   Future<void> get_messages() async {
     try {
-      final authProvider = Provider.of<AuthProvider>(context, listen: false);
-
       var response = await http.post(
         Uri.parse("http://10.0.2.2:8000/api/get/"),
         body: {"host": data['host'], "user2": data['user2']},
@@ -53,19 +54,23 @@ class _MessagePageState extends State<MessagePage> {
 
   Future<void> send_message(String content, String host, String user2) async {
     try {
-      final authProvider = Provider.of<AuthProvider>(context, listen: false);
-
-      var response = await http.post(
+      await http.post(
         Uri.parse("http://10.0.2.2:8000/api/send/"),
         body: {"host": host, "user2": user2, 'content': content},
       );
-      var jsonResponse = jsonDecode(response.body);
       setState(() {
         _messageController.clear();
         get_messages();
         scroll_to_bottom();
       });
     } catch (e) {}
+  }
+
+  void startTimer() {
+    const duration = Duration(seconds: 1);
+    timer = Timer.periodic(duration, (_) {
+      get_messages();
+    });
   }
 
   @override
@@ -183,8 +188,7 @@ class _MessagePageState extends State<MessagePage> {
                     height: 20,
                   ),
                   Column(
-                    children: buildDataWidgets(data[
-                        'user2_profile_pic']), // Build the column widgets dynamically
+                    children: buildDataWidgets(data['user2_profile_pic']),
                   ),
                 ],
               ),
@@ -202,6 +206,9 @@ class _MessagePageState extends State<MessagePage> {
                       child: TextField(
                         controller: _messageController,
                         maxLines: null,
+                        onTap: () {
+                          scroll_to_bottom();
+                        },
                         decoration: const InputDecoration(
                             hintText: "Message...",
                             contentPadding: EdgeInsets.symmetric(
@@ -236,9 +243,7 @@ class _MessagePageState extends State<MessagePage> {
   List<Widget> buildDataWidgets(String user2_profile_pic) {
     List<Widget> widgets = [];
 
-    // Build widgets based on the fetched data
     for (var data in messages) {
-      // Customize the widget as per your requirement
       Widget dataWidget = MessageWiget(
           message: data['content'],
           user: data['user'],
@@ -302,7 +307,7 @@ class MessageWiget extends StatelessWidget {
                       shape: BoxShape.circle,
                       image: DecorationImage(
                         image: NetworkImage(
-                            'http://10.0.2.2:8000' + (user2_profile_pic ?? '')),
+                            'http://10.0.2.2:8000' + (user2_profile_pic)),
                         fit: BoxFit.contain,
                       ),
                     ),

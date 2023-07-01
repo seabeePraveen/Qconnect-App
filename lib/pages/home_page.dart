@@ -20,11 +20,13 @@ class _HomePageState extends State<HomePage> {
   TextEditingController _searchController = TextEditingController();
 
   List<dynamic> homedata = [];
+  Timer? timer;
 
   @override
   void initState() {
     super.initState();
     get_details();
+    startTimer();
   }
 
   void get_details() async {
@@ -41,6 +43,13 @@ class _HomePageState extends State<HomePage> {
         homedata = jsonResponse;
       });
     } catch (e) {}
+  }
+
+  void startTimer() {
+    const duration = Duration(seconds: 2);
+    timer = Timer.periodic(duration, (_) {
+      get_details();
+    });
   }
 
   @override
@@ -148,9 +157,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> buildDataWidgets() {
     List<Widget> widgets = [];
 
-    // Build widgets based on the fetched data
     for (var data in homedata) {
-      // Customize the widget as per your requirement
       Widget dataWidget = EachUserWidget(
         username: data['user2_username'],
         message: data['content'],
@@ -173,7 +180,7 @@ class EachUserWidget extends StatelessWidget {
   int host;
   int sender;
   EachUserWidget({
-    super.key,
+    Key? key,
     required this.username,
     required this.message,
     required this.profile_pic,

@@ -75,7 +75,9 @@ class AuthProvider with ChangeNotifier {
           return jsonResponse["error"];
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      return e;
+    }
   }
 
   Future<dynamic> register(
@@ -119,7 +121,9 @@ class AuthProvider with ChangeNotifier {
           return jsonResponse["email"];
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      return e;
+    }
   }
 
   void logout() {
