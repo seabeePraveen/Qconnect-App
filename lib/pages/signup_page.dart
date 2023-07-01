@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:chatt_app_frontend/provider/token_provider.dart';
+import 'package:Qconnect/provider/token_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,7 +33,7 @@ class _SignuPageState extends State<SignuPage> {
               children: [
                 Center(
                   child: Image.asset(
-                    "assets/insta_logo.png",
+                    "assets/Qconnect_logo.jpeg",
                     height: 64,
                   ),
                 ),

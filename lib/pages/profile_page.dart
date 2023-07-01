@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, duplicate_ignore, sort_child_properties_last, use_build_context_synchronously, prefer_interpolation_to_compose_strings
 
-import 'package:chatt_app_frontend/provider/token_provider.dart';
-import 'package:chatt_app_frontend/utils/routes.dart';
+import 'package:Qconnect/provider/token_provider.dart';
+import 'package:Qconnect/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:chatt_app_frontend/pages/profile_page.dart';
+import 'package:Qconnect/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;

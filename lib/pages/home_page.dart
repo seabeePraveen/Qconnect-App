@@ -3,9 +3,9 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:chatt_app_frontend/utils/routes.dart';
+import 'package:Qconnect/utils/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:chatt_app_frontend/provider/token_provider.dart';
+import 'package:Qconnect/provider/token_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 

@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:chatt_app_frontend/provider/token_provider.dart';
-import 'package:chatt_app_frontend/utils/routes.dart';
+import 'package:Qconnect/provider/token_provider.dart';
+import 'package:Qconnect/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             Center(
               child: Image.asset(
-                "assets/insta_logo.png",
+                "assets/Qconnect_logo.jpeg",
                 height: 64,
               ),
             ),
@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.only(top: 20),
               child: Center(
                 child: Text(
-                  "Chatt App",
+                  "Qconnect",
                   style: TextStyle(fontSize: 24),
                 ),
               ),
