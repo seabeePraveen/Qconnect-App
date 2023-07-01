@@ -238,10 +238,14 @@ class EachUserWidget extends StatelessWidget {
                               "You: ",
                               style: TextStyle(color: Colors.blue),
                             ),
-                          Text(
-                            message,
-                            style: const TextStyle(
-                              fontSize: 16,
+                          Container(
+                            constraints: BoxConstraints(maxWidth: 200),
+                            child: Text(
+                              message,
+                              maxLines: 1,
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                         ],
