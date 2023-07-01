@@ -122,6 +122,11 @@ class AuthProvider with ChangeNotifier {
     } catch (e) {}
   }
 
+  void logout() {
+    setToken("Null");
+    setUser("null", "null", "null", "null", "null");
+  }
+
   Future<dynamic> userUpdate(String username, String email, String name) async {
     var response = await http.post(
       Uri.parse("http://10.0.2.2:8000/api/update/"),

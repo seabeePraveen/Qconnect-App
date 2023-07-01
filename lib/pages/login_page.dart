@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                         });
                   }
                   if (authProvider.loggedstatus) {
-                    Navigator.pushNamed(context, MyRoutes.HomePage);
+                    Navigator.popAndPushNamed(context, MyRoutes.HomePage);
                   }
                 },
                 child: Container(

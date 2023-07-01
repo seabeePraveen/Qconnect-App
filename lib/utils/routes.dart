@@ -5,4 +5,5 @@ class MyRoutes {
   static String SignuPage = '/signup';
   static String SearchPage = '/search';
   static String MessagePage = '/message';
+  static String ProfileOptionsPage = '/profileoptions';
 }

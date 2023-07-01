@@ -61,7 +61,8 @@ class _HomePageState extends State<HomePage> {
                       flex: 20,
                       child: InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, MyRoutes.ProfilePage);
+                          Navigator.pushNamed(
+                              context, MyRoutes.ProfileOptionsPage);
                         },
                         child: CircleAvatar(
                           radius: 32,

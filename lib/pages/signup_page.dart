@@ -140,7 +140,7 @@ class _SignuPageState extends State<SignuPage> {
                               });
                         }
                         if (authProvider.loggedstatus) {
-                          Navigator.pushNamed(context, MyRoutes.HomePage);
+                          Navigator.popAndPushNamed(context, MyRoutes.HomePage);
                         }
                       }
                     },

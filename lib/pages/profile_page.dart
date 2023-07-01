@@ -144,7 +144,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, MyRoutes.HomePage);
+                          Navigator.pop(context);
                         },
                         child: const Text(
                           "Cancel",
