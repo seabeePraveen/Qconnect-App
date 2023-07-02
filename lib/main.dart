@@ -1,3 +1,4 @@
+import 'package:Qconnect/pages/change_password.dart';
 import 'package:Qconnect/pages/home_page.dart';
 import 'package:Qconnect/pages/login_page.dart';
 import 'package:Qconnect/pages/message_page.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
           MyRoutes.SearchPage: (context) => const SearchPage(),
           MyRoutes.MessagePage: (context) => const MessagePage(),
           MyRoutes.ProfileOptionsPage: (context) => ProfileOptionsPage(),
+          MyRoutes.ChangePasswordPage: (context) => ChangePassword(),
         },
       ),
     );

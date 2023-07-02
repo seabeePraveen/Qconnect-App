@@ -96,6 +96,40 @@ class ProfileOptionsPage extends StatelessWidget {
               child: Container(
                 child: InkWell(
                   onTap: () {
+                    Navigator.pushNamed(context, MyRoutes.ChangePasswordPage);
+                  },
+                  child: const Row(
+                    children: [
+                      Expanded(
+                        flex: 10,
+                        child: Icon(
+                          Icons.password,
+                          size: 32,
+                          color: Colors.blue,
+                        ),
+                      ),
+                      Expanded(flex: 5, child: SizedBox()),
+                      Expanded(
+                        flex: 80,
+                        child: Text(
+                          "Change Password",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 10,
+                        child: Icon(Icons.arrow_forward_ios),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              child: Container(
+                child: InkWell(
+                  onTap: () {
                     Navigator.pushNamed(context, MyRoutes.ProfilePage);
                   },
                   child: const Row(

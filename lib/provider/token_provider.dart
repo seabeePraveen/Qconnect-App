@@ -126,6 +126,21 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  Future<dynamic> changePassword(String oldPass, String newPass) async {
+    var response = await http.post(
+      Uri.parse("http://10.0.2.2:8000/api/change_password/"),
+      body: {"token": token, "oldPassword": oldPass, "newPassword": newPass},
+    );
+    if (response.statusCode == 200) {
+      return null;
+    } else {
+      var jsonResponse = jsonDecode(response.body);
+      if (jsonResponse.containsKey("error")) {
+        return jsonResponse["error"];
+      }
+    }
+  }
+
   void logout() {
     setToken("Null");
     setUser("null", "null", "null", "null", "null");

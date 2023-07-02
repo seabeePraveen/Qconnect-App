@@ -6,4 +6,5 @@ class MyRoutes {
   static String SearchPage = '/search';
   static String MessagePage = '/message';
   static String ProfileOptionsPage = '/profileoptions';
+  static String ChangePasswordPage = '/changepassword';
 }
