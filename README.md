@@ -34,6 +34,30 @@ Qconnect is a dynamic and user-friendly chatting app designed to facilitate seam
   ```
 2. Sign up for a new account or log in with your existing account.
 3. Start exploring and using the chat features to communicate with other users.
+
+## Building the App
+
+To build the Qconnect app for Android and iOS, follow the instructions below:
+
+### Android
+1. Generate the APK file:
+  ```bash
+  flutter build apk
+  ```
+2. Locate the generated APK file in the build/app/outputs/flutter-apk directory.
+
+### IOS
+1. Generate the Xcode project:
+  ```bash
+  flutter create .
+  ```
+2. Open the project in Xcode:
+  ```bash
+  open ios/Runner.xcworkspace
+  ```
+3. Configure the signing and provisioning profiles in Xcode.
+4. Build and run the app using Xcode.
+
 ## Dependencies
 
 Qconnect relies on the following dependencies:
