@@ -25,10 +25,15 @@ Qconnect is a dynamic and user-friendly chatting app designed to facilitate seam
   ```bash
   flutter pub get
   ```
-3. Run the application:
+
+## Usage
+
+1. Run the application:
   ```bash
   flutter run
   ```
+2. Sign up for a new account or log in with your existing account.
+3. Start exploring and using the chat features to communicate with other users.
 ## Dependencies
 
 Qconnect relies on the following dependencies:
