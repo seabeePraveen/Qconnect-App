@@ -206,8 +206,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       CircleAvatar(
                         radius: 32 * 1.5,
-                        backgroundImage: NetworkImage('http://10.0.2.2:8000' +
-                            authProvider.user.profile_pic),
+                        backgroundImage: NetworkImage(
+                            'https://qconnectbackend.onrender.com' +
+                                authProvider.user.profile_pic),
                       ),
                       TextButton(
                         onPressed: () {

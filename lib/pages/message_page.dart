@@ -42,7 +42,7 @@ class _MessagePageState extends State<MessagePage> {
   Future<void> get_messages() async {
     try {
       var response = await http.post(
-        Uri.parse("http://10.0.2.2:8000/api/get/"),
+        Uri.parse("https://qconnectbackend.onrender.com/api/get/"),
         body: {"host": data['host'], "user2": data['user2']},
       );
       var jsonResponse = jsonDecode(response.body);
@@ -55,7 +55,7 @@ class _MessagePageState extends State<MessagePage> {
   Future<void> send_message(String content, String host, String user2) async {
     try {
       await http.post(
-        Uri.parse("http://10.0.2.2:8000/api/send/"),
+        Uri.parse("https://qconnectbackend.onrender.com/api/send/"),
         body: {"host": host, "user2": user2, 'content': content},
       );
       setState(() {
@@ -91,7 +91,7 @@ class _MessagePageState extends State<MessagePage> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: NetworkImage('http://10.0.2.2:8000' +
+                    image: NetworkImage('https://qconnectbackend.onrender.com' +
                         (data['user2_profile_pic'] ?? '')),
                     fit: BoxFit.contain,
                   ),
@@ -140,8 +140,9 @@ class _MessagePageState extends State<MessagePage> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: NetworkImage('http://10.0.2.2:8000' +
-                                      (data['user2_profile_pic'] ?? '')),
+                                  image: NetworkImage(
+                                      'https://qconnectbackend.onrender.com' +
+                                          (data['user2_profile_pic'] ?? '')),
                                   fit: BoxFit.contain,
                                 ),
                               ),
@@ -307,7 +308,8 @@ class MessageWiget extends StatelessWidget {
                       shape: BoxShape.circle,
                       image: DecorationImage(
                         image: NetworkImage(
-                            'http://10.0.2.2:8000' + (user2_profile_pic)),
+                            'https://qconnectbackend.onrender.com' +
+                                (user2_profile_pic)),
                         fit: BoxFit.contain,
                       ),
                     ),

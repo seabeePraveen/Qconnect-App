@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../model.dart';
 
+var base_url = "https://qconnectbackend.onrender.com/api/";
+
 class AuthProvider with ChangeNotifier {
   bool _loggedstatus = false;
   bool get loggedstatus => _loggedstatus;
@@ -42,7 +44,7 @@ class AuthProvider with ChangeNotifier {
   Future<dynamic> login(String username, String password) async {
     try {
       var response = await http.post(
-        Uri.parse("http://10.0.2.2:8000/api/login/"),
+        Uri.parse("${base_url}login/"),
         body: {"username": username, "password": password},
       );
 
@@ -50,7 +52,7 @@ class AuthProvider with ChangeNotifier {
         var jsonResponse = jsonDecode(response.body);
         setToken(jsonResponse['token']);
         var userDetails = await http.post(
-          Uri.parse("http://10.0.2.2:8000/api/get_user/"),
+          Uri.parse("${base_url}get_user/"),
           body: {"token": token},
         );
         if (userDetails.statusCode == 200) {
@@ -84,7 +86,7 @@ class AuthProvider with ChangeNotifier {
       String username, String email, String password) async {
     try {
       var response = await http.post(
-        Uri.parse("http://10.0.2.2:8000/api/register/"),
+        Uri.parse("${base_url}register/"),
         body: {"username": username, "email": email, "password": password},
       );
 
@@ -92,7 +94,7 @@ class AuthProvider with ChangeNotifier {
         var jsonResponse = jsonDecode(response.body);
         setToken(jsonResponse['token']);
         var userDetails = await http.post(
-          Uri.parse("http://10.0.2.2:8000/api/get_user/"),
+          Uri.parse("${base_url}get_user/"),
           body: {"token": token},
         );
 
@@ -128,7 +130,7 @@ class AuthProvider with ChangeNotifier {
 
   Future<dynamic> changePassword(String oldPass, String newPass) async {
     var response = await http.post(
-      Uri.parse("http://10.0.2.2:8000/api/change_password/"),
+      Uri.parse("${base_url}change_password/"),
       body: {"token": token, "oldPassword": oldPass, "newPassword": newPass},
     );
     if (response.statusCode == 200) {
@@ -148,7 +150,7 @@ class AuthProvider with ChangeNotifier {
 
   Future<dynamic> userUpdate(String username, String email, String name) async {
     var response = await http.post(
-      Uri.parse("http://10.0.2.2:8000/api/update/"),
+      Uri.parse("${base_url}update/"),
       body: {
         "username": username,
         "email": email,
@@ -158,7 +160,7 @@ class AuthProvider with ChangeNotifier {
     );
     if (response.statusCode == 200) {
       var userDetails = await http.post(
-        Uri.parse("http://10.0.2.2:8000/api/get_user/"),
+        Uri.parse("${base_url}get_user/"),
         body: {"token": token},
       );
 

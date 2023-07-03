@@ -30,8 +30,9 @@ class ProfileOptionsPage extends StatelessWidget {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image: NetworkImage('http://10.0.2.2:8000' +
-                                authProvider.user.profile_pic),
+                            image: NetworkImage(
+                                'https://qconnectbackend.onrender.com' +
+                                    authProvider.user.profile_pic),
                             fit: BoxFit.contain,
                           ),
                         ),
@@ -202,7 +203,8 @@ class ProfileOptionsPage extends StatelessWidget {
               child: InkWell(
                 onTap: () async {
                   var response = await http.post(
-                    Uri.parse("http://10.0.2.2:8000/api/delete/"),
+                    Uri.parse(
+                        "https://qconnectbackend.onrender.com/api/delete/"),
                     body: {"token": authProvider.token},
                   );
                   authProvider.logout();

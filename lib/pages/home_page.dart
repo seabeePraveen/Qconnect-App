@@ -18,6 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   TextEditingController _searchController = TextEditingController();
+  var base_url = "https://qconnectbackend.onrender.com/api/";
 
   List<dynamic> homedata = [];
   Timer? timer;
@@ -34,8 +35,7 @@ class _HomePageState extends State<HomePage> {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
       var response = await http.post(
-        Uri.parse(
-            "http://10.0.2.2:8000/api/get_last_messages_of_user_and_details/"),
+        Uri.parse("${base_url}get_last_messages_of_user_and_details/"),
         body: {"token": authProvider.token},
       );
       var jsonResponse = jsonDecode(response.body);
@@ -79,8 +79,9 @@ class _HomePageState extends State<HomePage> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                image: NetworkImage('http://10.0.2.2:8000' +
-                                    authProvider.user.profile_pic),
+                                image: NetworkImage(
+                                    'https://qconnectbackend.onrender.com' +
+                                        authProvider.user.profile_pic),
                                 fit: BoxFit.contain,
                               ),
                             ),
@@ -204,7 +205,8 @@ class EachUserWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: NetworkImage('http://10.0.2.2:8000' + profile_pic),
+                    image: NetworkImage(
+                        'https://qconnectbackend.onrender.com' + profile_pic),
                     fit: BoxFit.contain,
                   ),
                 ),

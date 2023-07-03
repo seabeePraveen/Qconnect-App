@@ -21,7 +21,8 @@ class _SearchPageState extends State<SearchPage> {
 
   void search_users(String username) async {
     var response = await http.post(
-      Uri.parse("http://10.0.2.2:8000/api/get_user_with_string/"),
+      Uri.parse(
+          "https://qconnectbackend.onrender.com/api/get_user_with_string/"),
       body: {"username": username},
     );
 
@@ -93,8 +94,9 @@ class _SearchPageState extends State<SearchPage> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: NetworkImage('http://10.0.2.2:8000' +
-                                  data[index]['profile_pic']),
+                              image: NetworkImage(
+                                  'https://qconnectbackend.onrender.com' +
+                                      data[index]['profile_pic']),
                               fit: BoxFit.contain,
                             ),
                           ),
