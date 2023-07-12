@@ -19,7 +19,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    print(authProvider.token);
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -64,31 +63,45 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: InkWell(
-                onTap: () async {
-                  var res = await authProvider.login(
-                      _useridController.text.toString(),
-                      _passwordController.text.toString());
-                  if (res.runtimeType == String) {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return Dialog(
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 200,
-                              width: 250,
-                              child: Text(res as String),
-                            ),
-                          );
-                        });
-                  }
-                  if (authProvider.loggedstatus) {
-                    Navigator.popAndPushNamed(context, MyRoutes.HomePage);
-                  }
-                },
+            InkWell(
+              onTap: () async {
+                var res = await authProvider.login(
+                    _useridController.text.toString(),
+                    _passwordController.text.toString());
+                if (res.runtimeType == String) {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Dialog(
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 200,
+                            width: 250,
+                            child: Text(res as String),
+                          ),
+                        );
+                      });
+                }
+                if (authProvider.loading) {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Dialog(
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 200,
+                            width: 250,
+                            child: const Text("Loading"),
+                          ),
+                        );
+                      });
+                }
+                if (authProvider.loggedstatus) {
+                  Navigator.popAndPushNamed(context, MyRoutes.HomePage);
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),

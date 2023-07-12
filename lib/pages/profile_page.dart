@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, duplicate_ignore, sort_child_properties_last, use_build_context_synchronously, prefer_interpolation_to_compose_strings
 
+import 'package:Qconnect/constants.dart';
 import 'package:Qconnect/provider/token_provider.dart';
-import 'package:Qconnect/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -48,7 +48,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   padding: const EdgeInsets.all(30),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(100),
-                                    color: Color.fromRGBO(48, 79, 254, 0.1),
+                                    color:
+                                        const Color.fromRGBO(48, 79, 254, 0.1),
                                   ),
                                   child: const Icon(
                                     Icons.camera_alt,
@@ -86,7 +87,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   padding: const EdgeInsets.all(30),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(100),
-                                    color: Color.fromRGBO(48, 79, 254, 0.1),
+                                    color:
+                                        const Color.fromRGBO(48, 79, 254, 0.1),
                                   ),
                                   child: const Icon(
                                     Icons.filter,
@@ -207,8 +209,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       CircleAvatar(
                         radius: 32 * 1.5,
                         backgroundImage: NetworkImage(
-                            'https://qconnectbackend.onrender.com' +
-                                authProvider.user.profile_pic),
+                            baseURL + authProvider.user.profile_pic),
                       ),
                       TextButton(
                         onPressed: () {

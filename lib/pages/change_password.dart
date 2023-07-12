@@ -86,7 +86,9 @@ class _ChangePasswordState extends State<ChangePassword> {
               ),
               child: InkWell(
                 onTap: () async {
-                  if (_newPassword.text == _confirmNewPassword.text) {
+                  if (_newPassword.text.toString() ==
+                      _confirmNewPassword.text.toString()) {
+                    print("hii");
                     setState(() {
                       corretPasswords = true;
                     });

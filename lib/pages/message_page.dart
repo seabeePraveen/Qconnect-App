@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:Qconnect/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -26,7 +27,7 @@ class _MessagePageState extends State<MessagePage> {
     super.initState();
     get_messages();
     scroll_to_bottom();
-    startTimer();
+    // startTimer();
   }
 
   void scroll_to_bottom() {
@@ -42,7 +43,7 @@ class _MessagePageState extends State<MessagePage> {
   Future<void> get_messages() async {
     try {
       var response = await http.post(
-        Uri.parse("https://qconnectbackend.onrender.com/api/get/"),
+        Uri.parse("$baseURL/api/get/"),
         body: {"host": data['host'], "user2": data['user2']},
       );
       var jsonResponse = jsonDecode(response.body);
@@ -55,7 +56,7 @@ class _MessagePageState extends State<MessagePage> {
   Future<void> send_message(String content, String host, String user2) async {
     try {
       await http.post(
-        Uri.parse("https://qconnectbackend.onrender.com/api/send/"),
+        Uri.parse("$baseURL/api/send/"),
         body: {"host": host, "user2": user2, 'content': content},
       );
       setState(() {
@@ -81,7 +82,7 @@ class _MessagePageState extends State<MessagePage> {
       appBar: AppBar(
         toolbarHeight: 70,
         backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         elevation: .5,
         title: Row(
           children: [
@@ -91,8 +92,8 @@ class _MessagePageState extends State<MessagePage> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: NetworkImage('https://qconnectbackend.onrender.com' +
-                        (data['user2_profile_pic'] ?? '')),
+                    image: NetworkImage(
+                        baseURL + (data['user2_profile_pic'] ?? '')),
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -112,7 +113,7 @@ class _MessagePageState extends State<MessagePage> {
                   get_messages();
                   print(messages);
                 },
-                child: Icon(Icons.refresh),
+                child: const Icon(Icons.refresh),
               ),
             )
           ],
@@ -140,9 +141,8 @@ class _MessagePageState extends State<MessagePage> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: NetworkImage(
-                                      'https://qconnectbackend.onrender.com' +
-                                          (data['user2_profile_pic'] ?? '')),
+                                  image: NetworkImage(baseURL +
+                                      (data['user2_profile_pic'] ?? '')),
                                   fit: BoxFit.contain,
                                 ),
                               ),
@@ -307,9 +307,7 @@ class MessageWiget extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: NetworkImage(
-                            'https://qconnectbackend.onrender.com' +
-                                (user2_profile_pic)),
+                        image: NetworkImage(baseURL + (user2_profile_pic)),
                         fit: BoxFit.contain,
                       ),
                     ),
@@ -333,7 +331,7 @@ class MessageWiget extends StatelessWidget {
                           vertical: 8, horizontal: 14),
                       child: Text(
                         message,
-                        style: TextStyle(),
+                        style: const TextStyle(),
                       ),
                     ),
                   ),

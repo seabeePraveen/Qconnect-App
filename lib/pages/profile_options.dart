@@ -1,5 +1,6 @@
-// ignore_for_file: prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_interpolation_to_compose_strings, use_build_context_synchronously, unused_local_variable
 
+import 'package:Qconnect/constants.dart';
 import 'package:Qconnect/provider/token_provider.dart';
 import 'package:Qconnect/utils/routes.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +32,7 @@ class ProfileOptionsPage extends StatelessWidget {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             image: NetworkImage(
-                                'https://qconnectbackend.onrender.com' +
-                                    authProvider.user.profile_pic),
+                                baseURL + authProvider.user.profile_pic),
                             fit: BoxFit.contain,
                           ),
                         ),
@@ -203,8 +203,7 @@ class ProfileOptionsPage extends StatelessWidget {
               child: InkWell(
                 onTap: () async {
                   var response = await http.post(
-                    Uri.parse(
-                        "https://qconnectbackend.onrender.com/api/delete/"),
+                    Uri.parse("$baseURL/api/delete/"),
                     body: {"token": authProvider.token},
                   );
                   authProvider.logout();

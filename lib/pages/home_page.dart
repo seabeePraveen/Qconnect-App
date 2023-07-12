@@ -9,6 +9,8 @@ import 'package:Qconnect/provider/token_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
+import '../constants.dart';
+
 class HomePage extends StatefulWidget {
   HomePage({super.key});
 
@@ -18,7 +20,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   TextEditingController _searchController = TextEditingController();
-  var base_url = "https://qconnectbackend.onrender.com/api/";
 
   List<dynamic> homedata = [];
   Timer? timer;
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     get_details();
-    startTimer();
+    // startTimer();
   }
 
   void get_details() async {
@@ -35,7 +36,7 @@ class _HomePageState extends State<HomePage> {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
       var response = await http.post(
-        Uri.parse("${base_url}get_last_messages_of_user_and_details/"),
+        Uri.parse("$baseURL/api/get_last_messages_of_user_and_details/"),
         body: {"token": authProvider.token},
       );
       var jsonResponse = jsonDecode(response.body);
@@ -46,7 +47,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void startTimer() {
-    const duration = Duration(seconds: 2);
+    const duration = Duration(seconds: 5);
     timer = Timer.periodic(duration, (_) {
       get_details();
     });
@@ -55,7 +56,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    // get_details();
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -80,8 +80,7 @@ class _HomePageState extends State<HomePage> {
                               shape: BoxShape.circle,
                               image: DecorationImage(
                                 image: NetworkImage(
-                                    'https://qconnectbackend.onrender.com' +
-                                        authProvider.user.profile_pic),
+                                    baseURL + authProvider.user.profile_pic),
                                 fit: BoxFit.contain,
                               ),
                             ),
@@ -205,8 +204,7 @@ class EachUserWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: NetworkImage(
-                        'https://qconnectbackend.onrender.com' + profile_pic),
+                    image: NetworkImage(baseURL + profile_pic),
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -249,7 +247,7 @@ class EachUserWidget extends StatelessWidget {
                               style: TextStyle(color: Colors.blue),
                             ),
                           Container(
-                            constraints: BoxConstraints(maxWidth: 200),
+                            constraints: const BoxConstraints(maxWidth: 200),
                             child: Text(
                               message,
                               maxLines: 1,
