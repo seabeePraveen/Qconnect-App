@@ -209,7 +209,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       CircleAvatar(
                         radius: 32 * 1.5,
                         backgroundImage: NetworkImage(
-                            baseURL + authProvider.user.profile_pic),
+                            baseURL + "/api" + authProvider.user.profile_pic),
                       ),
                       TextButton(
                         onPressed: () {

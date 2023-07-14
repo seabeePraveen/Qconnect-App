@@ -79,8 +79,9 @@ class _HomePageState extends State<HomePage> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                image: NetworkImage(
-                                    baseURL + authProvider.user.profile_pic),
+                                image: NetworkImage(baseURL +
+                                    "/api" +
+                                    authProvider.user.profile_pic),
                                 fit: BoxFit.contain,
                               ),
                             ),
@@ -204,7 +205,7 @@ class EachUserWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: NetworkImage(baseURL + profile_pic),
+                    image: NetworkImage(baseURL + "/api" + profile_pic),
                     fit: BoxFit.contain,
                   ),
                 ),

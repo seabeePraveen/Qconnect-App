@@ -94,8 +94,9 @@ class _SearchPageState extends State<SearchPage> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: NetworkImage(
-                                  baseURL + data[index]['profile_pic']),
+                              image: NetworkImage(baseURL +
+                                  "/api" +
+                                  data[index]['profile_pic']),
                               fit: BoxFit.contain,
                             ),
                           ),

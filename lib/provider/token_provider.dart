@@ -53,7 +53,6 @@ class AuthProvider with ChangeNotifier {
         Uri.parse("$baseURL/api/login/"),
         body: {"username": username, "password": password},
       );
-
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body);
         setToken(jsonResponse['token']);
