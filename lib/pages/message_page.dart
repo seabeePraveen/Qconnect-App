@@ -93,7 +93,7 @@ class _MessagePageState extends State<MessagePage> {
                   shape: BoxShape.circle,
                   image: DecorationImage(
                     image: NetworkImage(
-                        baseURL + (data['user2_profile_pic'] ?? '')),
+                        baseURL + "/api" + (data['user2_profile_pic'] ?? '')),
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -142,6 +142,7 @@ class _MessagePageState extends State<MessagePage> {
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
                                   image: NetworkImage(baseURL +
+                                      "/api" +
                                       (data['user2_profile_pic'] ?? '')),
                                   fit: BoxFit.contain,
                                 ),
@@ -307,7 +308,8 @@ class MessageWiget extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: NetworkImage(baseURL + (user2_profile_pic)),
+                        image: NetworkImage(
+                            baseURL + "/api" + (user2_profile_pic)),
                         fit: BoxFit.contain,
                       ),
                     ),
